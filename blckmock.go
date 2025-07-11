@@ -78,8 +78,16 @@ func GetBlock(round int64) ([]byte, error) {
 	return blckBody, nil
 }
 
-func GetStatus() (int64, error) {
+func GetStatus() ([]byte, error) {
 	updateLastRound()
 
-	return lastRound, nil
+	lastRoundResp := map[string]interface{}{
+		"last-round": lastRound,
+	}
+
+	lastRoundBody, err := json.Marshal(lastRoundResp)
+	if err != nil {
+		return nil, err
+	}
+	return lastRoundBody, nil
 }

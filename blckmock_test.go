@@ -39,7 +39,8 @@ func TestGetBlockError(t *testing.T) {
 }
 
 func TestGetStatus(t *testing.T) {
-	gotStatus, err := GetStatus()
+	gotStatusBody, err := GetStatus()
+	expStatusBody := []byte(`{"last-round":200}`)
 	require.Nil(t, err)
-	require.Equal(t, int64(200), gotStatus)
+	require.Equal(t, string(expStatusBody), string(gotStatusBody))
 }
