@@ -1,10 +1,8 @@
-package blckmock
+package smartblox
 
 import (
-	"encoding/json"
 	"testing"
 
-	"github.com/jinzhu/copier"
 	"github.com/stretchr/testify/require"
 )
 
@@ -25,10 +23,14 @@ func TestGetBlock(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, gotBlockBody)
 
-	var expBlock map[string]interface{}
-	copier.Copy(&expBlock, defaultBlck)
-	expBlock["round"] = 10
-	expBlockBody, _ := json.Marshal(expBlock)
+	expBlockBody := []byte(`{"round":10,"txs":[{"sig":"f1af154530f05a3843a14dc1240efc639268fc96f594248237a9ee3b9502b1a5","tx":{"type":"void"}}]}`)
+	require.Equal(t, string(expBlockBody), string(gotBlockBody))
+
+	gotBlockBody, err = GetBlock(11)
+	require.Nil(t, err)
+	require.NotNil(t, gotBlockBody)
+
+	expBlockBody = []byte(`{"round":11,"txs":[{"sig":"3e0e09c84da7fc381b2d858a8f3c5a20d6360eab7e331a045da01dd6c7957dd1","tx":{"amount":1000,"receipient":2349,"sender":1234,"type":"txfer"}},{"sig":"d7b0517a76c7f8a1265e26e9adfb72f852788e82f9eb82241ea1b3a6986e3bb5","tx":{"type":"void"}}]}`)
 	require.Equal(t, string(expBlockBody), string(gotBlockBody))
 }
 
