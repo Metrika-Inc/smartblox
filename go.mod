@@ -1,4 +1,4 @@
-module github.com/Metrika-Inc/blckmock
+module github.com/Metrika-Inc/smartblox
 
 go 1.24.4
 
