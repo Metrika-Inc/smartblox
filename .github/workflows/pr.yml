@@ -1,0 +1,21 @@
+name: Pull Request
+
+# This repo had no workflows at all, despite shipping a test suite that nothing ever ran.
+# Addresses the Vanta control `github-code-change-automated-checks-enabled`.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  go:
+    uses: metrika-inc/gh-action/.github/workflows/go-pr.yml@main
+    with:
+      # Matches the `go` directive in go.mod.
+      go-version: '1.24.4'
+      test: 'TRUE'
